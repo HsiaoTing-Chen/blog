@@ -26,7 +26,7 @@ logging.config.dictConfig(LOGGING)
 
 @login_required
 def index(request):
-    article_list = Article.objects.order_by('-created_at')[:5]
+    article_list = Article.objects.order_by('-created_at')
     username = request.user.username
     context = { 'article_list': article_list, 'username': username }
 
