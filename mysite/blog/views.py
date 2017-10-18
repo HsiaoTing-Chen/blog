@@ -28,7 +28,7 @@ logging.config.dictConfig(LOGGING)
 def index(request):
     article_list = Article.objects.order_by('-created_at')
     username = request.user.username
-    context = { 'article_list': article_list, 'username': username }
+    context = { 'article_list': article_list, 'username': username}
 
     logging.info("user id = "+ request.user.username)
     return render(request, 'blog/index.html', context)
@@ -36,22 +36,27 @@ def index(request):
 @login_required
 def detail(request, article_id):
     logging.info("article_id= "+article_id)
+    article_list = Article.objects.order_by('-created_at')[:5]
     article = Article.objects.get(pk=article_id)
-    context = { 'article': article, }
+    username = request.user.username
+    context = { 'article': article, 'username': username, 'article_list': article_list}
 
     return render(request, 'blog/detail.html', context)
 
 @login_required
 def article_add(request):
-
-    return render(request, 'blog/article.html')
+    username = request.user.username
+    article_list = Article.objects.order_by('-created_at')[:5]
+    context = {'username': username, 'article_list': article_list}
+    return render(request, 'blog/article.html', context)
 
 @login_required
 def article_edit(request, article_id):
-    # article_list = get_object_or_404(Article, id=article_id)
+    article_list = Article.objects.order_by('-created_at')[:5]
     logging.info("article_id= "+article_id)
     article = Article.objects.get(pk=article_id)
-    context = { 'article': article, }
+    username = request.user.username
+    context = { 'article': article, 'username': username, 'article_list': article_list}
 
     return render(request, 'blog/edit.html', context)
 
@@ -101,47 +106,23 @@ def article_save(request):
     return HttpResponseRedirect(reverse('blog:index'))
 
 
+@login_required
 def message_add(request, article_id):
-    #article_list = get_object_or_404(Article, id=article_id)
-
     logging.info("article_id= "+article_id)
     article = Article.objects.get(pk=article_id)
-    context = { 'article': article, }
+    article_list = Article.objects.order_by('-created_at')[:5]
+    username = request.user.username
+    context = { 'article': article, 'username': username, 'article_list': article_list}
 
     return render(request, 'blog/detail.html', context)
 
 
+@login_required
 def message_save(request, article_id):
     author = request.POST['author']
     title = request.POST['title']
     content = request.POST['content']
     article = Article.objects.get(id=article_id)
-    # create a new message
     article.message_set.create(author=author, title=title,content=content)
     return HttpResponseRedirect(reverse('blog:index'))
-    # return HttpResponseRedirect(reverse('blog:detail',args=(article.id,)))
 
-"""
-def login(request):
-    if request.user.is_authenticated():
-        #return HttpResponseRedirect('/hello/')
-        return HttpResponseRedirect(reverse('blog:index',args=(user,)))
-
-    username = request.POST.get('username', '')
-    password = request.POST.get('password', '')
-    logging.info(username+"/"+password)
-    user = auth.authenticate(username=username, password=password)
-
-    if  user is not None and user.is_active:
-        auth.login(request, user) # maintain the state of login
-        #return HttpResponseRedirect('/hello/')
-        return HttpResponseRedirect(reverse('blog:index',args=(user,)))
-    else:
-        return HttpResponseRedirect(reverse('blog:index'))
-
-
-def logout(request):
-    username = request.user.username
-    context = { 'username': username }
-    return render(request, 'blog/logout.html', context)
-"""
