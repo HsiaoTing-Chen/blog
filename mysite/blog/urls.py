@@ -14,7 +14,6 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from django.contrib.auth.views import login, logout
 from . import views
 
 app_name = "blog"
@@ -28,7 +27,6 @@ urlpatterns = [
     url(r'^article/save/$', views.article_save, name='article_save'),
     url(r'^message/add/$', views.message_add, name='message_add'),
     url(r'^message/save/(?P<article_id>[0-9]+)$', views.message_save, name='message_save'),
-    #url(r'^login/$', login, {'template_name': 'blog/login.html'}, name='login'),
-    #url(r'^logout/$', logout, {'next_page': 'blog:logout'}),
+    #url(r'^register/$', views.register),
 ]
 

@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.views.decorators.csrf import csrf_protect
 
 import logging
 import logging.config
@@ -55,7 +57,7 @@ def article_edit(request, article_id):
     article_list = Article.objects.order_by('-created_at')[:5]
     article = Article.objects.get(pk=article_id)
     username = request.user.username
-    if article.author == username:
+    if article.author == username or username == "admin":
         context = {'article': article, 'username': username, 'article_list': article_list}
         return render(request, 'blog/edit.html', context)
     else:
@@ -83,7 +85,7 @@ def article_delete(request, article_id):
     article = Article.objects.get(pk=article_id)
     article_list = Article.objects.order_by('-created_at')[:5]
     username = request.user.username
-    if article.author == username:
+    if article.author == username or username == "admin":
         article.is_delete = True
         article.save()
         return HttpResponseRedirect(reverse('blog:index'))
@@ -136,3 +138,23 @@ def message_save(request, article_id):
     return HttpResponseRedirect(reverse('blog:index'))
 
 
+@csrf_protect
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            userObj = form.cleaned_data
+            username = userObj['username']
+            return HttpResponseRedirect(reverse('register_complete'), username)
+    else:
+        form = UserCreationForm()
+
+    return render(request, 'registration/register.html', {'form': form})
+
+
+def register_complete(request):
+    #return HttpResponseRedirect(reverse('login'))
+    user = request.user.username
+    context = {'user': user}
+    return render(request, 'registration/register_complete.html', context)

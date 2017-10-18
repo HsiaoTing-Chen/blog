@@ -22,11 +22,11 @@
     <div id="content">
         <div id="menu">
         <ul>
-          <li><a id="selected" href="{% url 'blog:index' %}">home</a></li>
+          <li><a href="{% url 'blog:index' %}">home</a></li>
           <li><a href="{% url 'blog:article_add'%}">add</a></li>
           <li><a href="#">detail</a></li>
           <li><a href="#">edit</a></li>
-          <li><a href="{% url 'register' %}">register</a></li>
+          <li><a id="selected" href="{% url 'register' %}">register</a></li>
           <li></li>
         </ul>
       </div>
@@ -54,9 +54,13 @@
         </div>
 
     <div id="column2">
-
-        <h1>Login</h1>
-        <p>{{ username }} logout !!</p>
+        <h1>Create New User</h1>
+          <form method="post">
+            {% csrf_token %}
+                {{form.as_p}}
+            <button type="submit">Sign up</button>
+              <input type="hidden" name="next" value="{% url 'register_complete' %}" />
+          </form>
     </div>
 
   </div>
