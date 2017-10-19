@@ -25,6 +25,4 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^register/$', blog_views.register, name='register'),
     url(r'^register_complete/$', blog_views.register_complete, name='register_complete'),
-    #url(r'^register/$', core_views.register, name='register'),
-    #url(r'^register/complete/$', core_views.registration_complete, name='registration_complete'),
 ]

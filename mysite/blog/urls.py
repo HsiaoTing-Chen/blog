@@ -27,6 +27,5 @@ urlpatterns = [
     url(r'^article/save/$', views.article_save, name='article_save'),
     url(r'^message/add/$', views.message_add, name='message_add'),
     url(r'^message/save/(?P<article_id>[0-9]+)$', views.message_save, name='message_save'),
-    #url(r'^register/$', views.register),
 ]
 

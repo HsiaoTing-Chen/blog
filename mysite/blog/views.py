@@ -30,13 +30,10 @@ def index(request):
     article_list = Article.objects.order_by('-created_at')
     username = request.user.username
     context = { 'article_list': article_list, 'username': username}
-
-    logging.info("user id = "+ request.user.username)
     return render(request, 'blog/index.html', context)
 
 @login_required
 def detail(request, article_id):
-    logging.info("article_id= "+article_id)
     article_list = Article.objects.order_by('-created_at')[:5]
     article = Article.objects.get(pk=article_id)
     username = request.user.username
@@ -112,14 +109,11 @@ def article_save(request):
     content = request.POST['content']
     new_article = Article(author=author,title=title,content=content)
     new_article.save(force_insert=True)
-
-    logging.info(author+" , "+title+" , "+content)
     return HttpResponseRedirect(reverse('blog:index'))
 
 
 @login_required
 def message_add(request, article_id):
-    logging.info("article_id= "+article_id)
     article = Article.objects.get(pk=article_id)
     article_list = Article.objects.order_by('-created_at')[:5]
     username = request.user.username
@@ -144,8 +138,8 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            userObj = form.cleaned_data
-            username = userObj['username']
+            user_obj = form.cleaned_data
+            username = user_obj['username']
             return HttpResponseRedirect(reverse('register_complete'), username)
     else:
         form = UserCreationForm()
@@ -154,7 +148,6 @@ def register(request):
 
 
 def register_complete(request):
-    #return HttpResponseRedirect(reverse('login'))
     user = request.user.username
     context = {'user': user}
     return render(request, 'registration/register_complete.html', context)
