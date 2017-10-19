@@ -1,0 +1,17 @@
+# A high-level Python Web framework that encourages rapid development and clean, pragmatic design.
+# https://pypi.python.org/pypi/Django/1.11.5
+Django==1.11.6
+
+
+# django editor
+# https://github.com/django-ckeditor/django-ckeditor
+django-ckeditor==5.3.0
+
+
+django-js-asset==0.1.1
+flake8==3.4.1
+mccabe==0.6.1
+pycodestyle==2.3.1
+pyflakes==1.5.0
+pytz==2017.2
+
