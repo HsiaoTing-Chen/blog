@@ -9,7 +9,6 @@
 {% endblock %}
 
 {% block content %}
-    <div id="column2">
         <h1>New Article</h1>
             <form action="{% url 'blog:article_save' %}" method="post">
                 {% csrf_token %}
