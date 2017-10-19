@@ -10,7 +10,11 @@
 
 {% block content %}
         {% if article %}
-        <h1>{{ article.title }}</h1>{{ article.author }}  <div style="float:right"><a href="{% url 'blog:article_edit' article.id %}"><b>edit</b></a> | <a href="{% url 'blog:article_delete' article.id %}"><b>delete</b></a></div>
+        <h1>{{ article.title }}</h1>{{ article.author }}
+        <div style="float:right">
+            <a href="{% url 'blog:article_edit' article.id %}"><b>edit</b></a> |<a href="javascript:;" onclick='document.getElementById("delete_article").submit();'><b>delete</b></a>
+            <form id="delete_article" action="{% url 'blog:article_delete' article.id %}" method="post">{% csrf_token %}<input type="hidden" name="mess" value="delete"></form>
+        </div>
         <p>{{ article.content|safe }}</p>
         <h1>message</h1>
             {% for message in article.message_set.all %}
@@ -26,7 +30,7 @@
             {% csrf_token %}
                  <div class="row">
                     <span class="formlabel">author</span>
-                    <span class="forminput"><input type="text" name="author" value="{{ username }}"></span>
+                    <span class="forminput"><input type="text" name="author" value="{{ request.session.user_name }}" disabled></span>
                 </div>
                 <div class="row">
                     <span class="formlabel">title</span>

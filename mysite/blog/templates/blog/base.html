@@ -14,7 +14,7 @@
 <body>
   <div id="main">
     <div id="links">
-      <a href="{% url 'login' %}">Login</a> | <a href="{% url 'logout' %}">Logout</a>
+        <a href="{% url 'login' %}">Login</a> | <a href="{% url 'logout' %}">Logout</a>
     </div>
     <div id="logo"><h1>Blog</h1></div>
     <div id="content">
@@ -26,7 +26,7 @@
       </div>
 
         <div id="column1">
-            <h1>hello {{ username }} ~ </h1>
+            <h1>hello ~ {{ request.session.user_name }} </h1>
             <div class="sidebaritem">
               <div class="sbihead">
                 <h1>latest article</h1>

@@ -14,7 +14,7 @@
                 {% csrf_token %}
                 <div class="row">
                     <span class="formlabel">author</span>
-                    <span class="forminput"><input type="text" name="author" value="{{ username }}"></span>
+                    <span class="forminput"><input type="text" name="author" value="{{ request.session.user_name }}" disabled></span>
                 </div>
                 <div class="row">
                     <span class="formlabel">title</span>
